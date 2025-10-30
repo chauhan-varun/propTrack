@@ -55,7 +55,14 @@ export async function PUT(
     }
 
     // Recalculate if currUnits or ratePerUnit changed
-    let updateData: any = {};
+    let updateData: {
+      currUnits?: number;
+      unitsUsed?: number;
+      electricityAmt?: number;
+      total?: number;
+      ratePerUnit?: number;
+      paid?: boolean;
+    } = {};
     
     if (currUnits !== undefined && currUnits !== bill.currUnits) {
       const unitsUsed = currUnits - bill.prevUnits;
