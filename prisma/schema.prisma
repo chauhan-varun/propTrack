@@ -1,0 +1,51 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Room {
+  id         Int     @id @default(autoincrement())
+  number     Int     @unique
+  tenantName String?
+  rent       Float
+  status     String  // "Occupied" or "Vacant"
+  bills      Bill[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Bill {
+  id             Int      @id @default(autoincrement())
+  month          String   // Format: "YYYY-MM" (e.g., "2025-10")
+  prevUnits      Int
+  currUnits      Int
+  unitsUsed      Int
+  ratePerUnit    Float
+  rentAmount     Float
+  electricityAmt Float
+  total          Float
+  paid           Boolean  @default(false)
+  roomId         Int
+  room           Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@unique([roomId, month])
+  @@index([month])
+  @@index([paid])
+}
+
+model Setting {
+  id          Int      @id @default(autoincrement())
+  key         String   @unique
+  value       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
