@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
     const month = searchParams.get('month');
     const roomId = searchParams.get('roomId');
 
-    const where: any = {};
+    const where: { month?: string; roomId?: number } = {};
     if (month) where.month = month;
     if (roomId) where.roomId = parseInt(roomId);
 
@@ -78,9 +78,9 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json(bill, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error creating bill:', error);
-    if (error.code === 'P2002') {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'P2002') {
       return NextResponse.json(
         { error: 'Bill for this room and month already exists' },
         { status: 400 }

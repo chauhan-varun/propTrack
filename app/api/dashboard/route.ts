@@ -22,12 +22,12 @@ export async function GET() {
 
     // Calculate totals
     const totalCollected = currentMonthBills
-      .filter((bill: any) => bill.paid)
-      .reduce((sum: number, bill: any) => sum + bill.total, 0);
+      .filter((bill: { paid: boolean }) => bill.paid)
+      .reduce((sum: number, bill: { total: number }) => sum + bill.total, 0);
 
     const pendingAmount = currentMonthBills
-      .filter((bill: any) => !bill.paid)
-      .reduce((sum: number, bill: any) => sum + bill.total, 0);
+      .filter((bill: { paid: boolean }) => !bill.paid)
+      .reduce((sum: number, bill: { total: number }) => sum + bill.total, 0);
 
     // Get unpaid bills with room details
     const unpaidBills = await prisma.bill.findMany({

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { format } from 'date-fns';
 
 // POST generate new month records
 export async function POST(request: NextRequest) {
