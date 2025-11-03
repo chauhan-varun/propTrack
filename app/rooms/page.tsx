@@ -12,6 +12,7 @@ import { AddRoomDialog } from '@/components/rooms/add-room-dialog';
 import { EditRoomDialog } from '@/components/rooms/edit-room-dialog';
 import { EditBillDialog } from '@/components/rooms/edit-bill-dialog';
 import { GenerateMonthDialog } from '@/components/rooms/generate-month-dialog';
+import { Header } from '@/components/header';
 
 interface Room {
     id: number;

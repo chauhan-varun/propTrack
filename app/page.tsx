@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Building2, Users, Home as HomeIcon, DollarSign, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
+import { Header } from '@/components/header';
 
 interface DashboardData {
   stats: {
@@ -81,16 +82,18 @@ export default function Home() {
   const { stats, unpaidBills } = data;
 
   return (
-    <div className="container mx-auto p-6 space-y-8">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold">PropTrack Dashboard</h1>
-          <p className="text-muted-foreground">Current Month: {stats.currentMonth}</p>
+    <>
+      <Header />
+      <div className="container mx-auto p-6 space-y-8">
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold">PropTrack Dashboard</h1>
+            <p className="text-muted-foreground">Current Month: {stats.currentMonth}</p>
+          </div>
+          <Link href="/rooms">
+            <Button>Manage Rooms</Button>
+          </Link>
         </div>
-        <Link href="/rooms">
-          <Button>Manage Rooms</Button>
-        </Link>
-      </div>
 
       {/* Summary Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
@@ -189,6 +192,7 @@ export default function Home() {
           )}
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </>
   );
 }
