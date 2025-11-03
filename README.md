@@ -1,6 +1,6 @@
 # PropTrack - Rent & Electricity Bill Management System
 
-A full-stack web application for managing rent and electricity bills for up to 90 rooms. Built with Next.js 14 (App Router), TypeScript, Prisma (SQLite), shadcn/ui, and TailwindCSS.
+A full-stack web application for managing rent and electricity bills for up to 90 rooms. Built with Next.js 14 (App Router), TypeScript, Prisma (PostgreSQL), shadcn/ui, and TailwindCSS.
 
 ## 🚀 Features
 
@@ -40,12 +40,20 @@ A full-stack web application for managing rent and electricity bills for up to 9
 
 - **Frontend**: Next.js 14 (App Router), React 19, TypeScript
 - **Styling**: TailwindCSS, shadcn/ui components
-- **Database**: Prisma ORM + SQLite
+- **Database**: Prisma ORM + PostgreSQL
 - **Forms**: React Hook Form + Zod validation
 - **Icons**: Lucide React
 - **Package Manager**: pnpm
 
 ## 📦 Installation
+
+### Prerequisites
+
+- Node.js 18+ 
+- PostgreSQL database (local or cloud-hosted)
+- pnpm package manager
+
+### Setup Steps
 
 1. **Install dependencies**
 
