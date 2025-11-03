@@ -47,12 +47,12 @@ export function EditBillDialog({ bill, roomId, selectedMonth, onBillUpdated }: E
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        
+
         if (!bill) {
             alert('No bill found for this month. Please generate the month first.');
             return;
         }
-        
+
         setLoading(true);
 
         try {

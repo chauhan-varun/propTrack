@@ -188,11 +188,11 @@ export default function RoomsPage() {
                                             <TableCell>
                                                 <div className="flex gap-2">
                                                     <EditRoomDialog room={room} onRoomUpdated={handleRoomUpdated} />
-                                                    <EditBillDialog 
-                                                        bill={currentBill || null} 
+                                                    <EditBillDialog
+                                                        bill={currentBill || null}
                                                         roomId={room.id}
                                                         selectedMonth={selectedMonth}
-                                                        onBillUpdated={handleBillUpdated} 
+                                                        onBillUpdated={handleBillUpdated}
                                                     />
                                                 </div>
                                             </TableCell>

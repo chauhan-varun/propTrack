@@ -28,6 +28,7 @@ export function AddRoomDialog({ onRoomAdded }: AddRoomDialogProps) {
         tenantName: '',
         rent: '',
         status: 'Vacant',
+        currentUnits: '',
     });
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -43,7 +44,7 @@ export function AddRoomDialog({ onRoomAdded }: AddRoomDialogProps) {
 
             if (response.ok) {
                 setOpen(false);
-                setFormData({ number: '', tenantName: '', rent: '', status: 'Vacant' });
+                setFormData({ number: '', tenantName: '', rent: '', status: 'Vacant', currentUnits: '' });
                 onRoomAdded();
             } else {
                 const error = await response.json();
@@ -51,7 +52,7 @@ export function AddRoomDialog({ onRoomAdded }: AddRoomDialogProps) {
             }
         } catch (error) {
             console.error('Error adding room:', error);
-            alert('Failed to add room');
+            alert('Failed to add tenant');
         } finally {
             setLoading(false);
         }
@@ -62,13 +63,13 @@ export function AddRoomDialog({ onRoomAdded }: AddRoomDialogProps) {
             <DialogTrigger asChild>
                 <Button>
                     <Plus className="mr-2 h-4 w-4" />
-                    Add Room
+                    Add New Tenant
                 </Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Add New Room</DialogTitle>
-                    <DialogDescription>Create a new room in the system.</DialogDescription>
+                    <DialogTitle>Add New Tenant</DialogTitle>
+                    <DialogDescription>Create a new tenant and room in the system.</DialogDescription>
                 </DialogHeader>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="space-y-2">
@@ -115,12 +116,24 @@ export function AddRoomDialog({ onRoomAdded }: AddRoomDialogProps) {
                             </SelectContent>
                         </Select>
                     </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="currentUnits">Current Meter Reading *</Label>
+                        <Input
+                            id="currentUnits"
+                            type="number"
+                            required
+                            value={formData.currentUnits}
+                            onChange={(e) => setFormData({ ...formData, currentUnits: e.target.value })}
+                            placeholder="Enter current meter reading"
+                        />
+                        <p className="text-xs text-muted-foreground">This will be saved as the initial meter reading</p>
+                    </div>
                     <DialogFooter>
                         <Button type="button" variant="outline" onClick={() => setOpen(false)}>
                             Cancel
                         </Button>
                         <Button type="submit" disabled={loading}>
-                            {loading ? 'Adding...' : 'Add Room'}
+                            {loading ? 'Adding...' : 'Add Tenant'}
                         </Button>
                     </DialogFooter>
                 </form>
