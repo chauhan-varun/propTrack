@@ -37,9 +37,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Parse number values from string inputs
+    const roomNumber = parseInt(number);
+    const roomRent = parseFloat(rent);
+
     // Check if room number already exists
     const existingRoom = await prisma.room.findUnique({
-      where: { number },
+      where: { number: roomNumber },
     });
 
     if (existingRoom) {
@@ -51,9 +55,9 @@ export async function POST(request: NextRequest) {
 
     const room = await prisma.room.create({
       data: {
-        number,
+        number: roomNumber,
         tenantName: tenantName || null,
-        rent: parseFloat(rent),
+        rent: roomRent,
         status,
       },
     });

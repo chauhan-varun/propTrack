@@ -101,105 +101,105 @@ export default function RoomsPage() {
         <>
             <Header />
             <div className="container mx-auto p-6 space-y-6">
-            <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                    <Link href="/">
-                        <Button variant="outline" size="icon">
-                            <ArrowLeft className="h-4 w-4" />
-                        </Button>
-                    </Link>
-                    <div>
-                        <h1 className="text-3xl font-bold">Rooms Management</h1>
-                        <p className="text-muted-foreground">
-                            {rooms.length} / 90 rooms | {rooms.filter((r) => r.status === 'Occupied').length} occupied
-                        </p>
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                        <Link href="/">
+                            <Button variant="outline" size="icon">
+                                <ArrowLeft className="h-4 w-4" />
+                            </Button>
+                        </Link>
+                        <div>
+                            <h1 className="text-3xl font-bold">Rooms Management</h1>
+                            <p className="text-muted-foreground">
+                                {rooms.length} / 90 rooms | {rooms.filter((r) => r.status === 'Occupied').length} occupied
+                            </p>
+                        </div>
+                    </div>
+                    <div className="flex gap-2">
+                        <GenerateMonthDialog onMonthGenerated={handleMonthGenerated} />
+                        <AddRoomDialog onRoomAdded={handleRoomAdded} />
                     </div>
                 </div>
-                <div className="flex gap-2">
-                    <GenerateMonthDialog onMonthGenerated={handleMonthGenerated} />
-                    <AddRoomDialog onRoomAdded={handleRoomAdded} />
+
+                <div className="flex gap-4 items-center">
+                    <Input
+                        placeholder="Search by room number or tenant name..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="max-w-sm"
+                    />
+                    <Input
+                        type="month"
+                        value={selectedMonth}
+                        onChange={(e) => setSelectedMonth(e.target.value)}
+                        className="max-w-xs"
+                    />
                 </div>
-            </div>
 
-            <div className="flex gap-4 items-center">
-                <Input
-                    placeholder="Search by room number or tenant name..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="max-w-sm"
-                />
-                <Input
-                    type="month"
-                    value={selectedMonth}
-                    onChange={(e) => setSelectedMonth(e.target.value)}
-                    className="max-w-xs"
-                />
-            </div>
-
-            <Card>
-                <CardHeader>
-                    <CardTitle>All Rooms</CardTitle>
-                    <CardDescription>View and manage room details and monthly bills</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Room No.</TableHead>
-                                <TableHead>Tenant Name</TableHead>
-                                <TableHead>Rent</TableHead>
-                                <TableHead>Status</TableHead>
-                                <TableHead>Prev Units</TableHead>
-                                <TableHead>Curr Units</TableHead>
-                                <TableHead>Units Used</TableHead>
-                                <TableHead>Electricity</TableHead>
-                                <TableHead>Total</TableHead>
-                                <TableHead>Payment</TableHead>
-                                <TableHead>Actions</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {filteredRooms.map((room) => {
-                                const currentBill = room.bills.find((b) => b.month === selectedMonth);
-                                return (
-                                    <TableRow key={room.id}>
-                                        <TableCell className="font-medium">{room.number}</TableCell>
-                                        <TableCell>{room.tenantName || 'N/A'}</TableCell>
-                                        <TableCell>₹{room.rent.toFixed(2)}</TableCell>
-                                        <TableCell>
-                                            <Badge variant={room.status === 'Occupied' ? 'default' : 'secondary'}>
-                                                {room.status}
-                                            </Badge>
-                                        </TableCell>
-                                        <TableCell>{currentBill?.prevUnits ?? '-'}</TableCell>
-                                        <TableCell>{currentBill?.currUnits ?? '-'}</TableCell>
-                                        <TableCell>{currentBill?.unitsUsed ?? '-'}</TableCell>
-                                        <TableCell>₹{currentBill?.electricityAmt.toFixed(2) ?? '0.00'}</TableCell>
-                                        <TableCell className="font-semibold">₹{currentBill?.total.toFixed(2) ?? '0.00'}</TableCell>
-                                        <TableCell>
-                                            {currentBill ? (
-                                                <Badge variant={currentBill.paid ? 'default' : 'destructive'}>
-                                                    {currentBill.paid ? 'Paid' : 'Unpaid'}
+                <Card>
+                    <CardHeader>
+                        <CardTitle>All Rooms</CardTitle>
+                        <CardDescription>View and manage room details and monthly bills</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Room No.</TableHead>
+                                    <TableHead>Tenant Name</TableHead>
+                                    <TableHead>Rent</TableHead>
+                                    <TableHead>Status</TableHead>
+                                    <TableHead>Prev Units</TableHead>
+                                    <TableHead>Curr Units</TableHead>
+                                    <TableHead>Units Used</TableHead>
+                                    <TableHead>Electricity</TableHead>
+                                    <TableHead>Total</TableHead>
+                                    <TableHead>Payment</TableHead>
+                                    <TableHead>Actions</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {filteredRooms.map((room) => {
+                                    const currentBill = room.bills.find((b) => b.month === selectedMonth);
+                                    return (
+                                        <TableRow key={room.id}>
+                                            <TableCell className="font-medium">{room.number}</TableCell>
+                                            <TableCell>{room.tenantName || 'N/A'}</TableCell>
+                                            <TableCell>₹{room.rent.toFixed(2)}</TableCell>
+                                            <TableCell>
+                                                <Badge variant={room.status === 'Occupied' ? 'default' : 'secondary'}>
+                                                    {room.status}
                                                 </Badge>
-                                            ) : (
-                                                <Badge variant="outline">No Bill</Badge>
-                                            )}
-                                        </TableCell>
-                                        <TableCell>
-                                            <div className="flex gap-2">
-                                                <EditRoomDialog room={room} onRoomUpdated={handleRoomUpdated} />
-                                                {currentBill && (
-                                                    <EditBillDialog bill={currentBill} onBillUpdated={handleBillUpdated} />
+                                            </TableCell>
+                                            <TableCell>{currentBill?.prevUnits ?? '-'}</TableCell>
+                                            <TableCell>{currentBill?.currUnits ?? '-'}</TableCell>
+                                            <TableCell>{currentBill?.unitsUsed ?? '-'}</TableCell>
+                                            <TableCell>₹{currentBill?.electricityAmt.toFixed(2) ?? '0.00'}</TableCell>
+                                            <TableCell className="font-semibold">₹{currentBill?.total.toFixed(2) ?? '0.00'}</TableCell>
+                                            <TableCell>
+                                                {currentBill ? (
+                                                    <Badge variant={currentBill.paid ? 'default' : 'destructive'}>
+                                                        {currentBill.paid ? 'Paid' : 'Unpaid'}
+                                                    </Badge>
+                                                ) : (
+                                                    <Badge variant="outline">No Bill</Badge>
                                                 )}
-                                            </div>
-                                        </TableCell>
-                                    </TableRow>
-                                );
-                            })}
-                        </TableBody>
-                    </Table>
-                </CardContent>
-            </Card>
+                                            </TableCell>
+                                            <TableCell>
+                                                <div className="flex gap-2">
+                                                    <EditRoomDialog room={room} onRoomUpdated={handleRoomUpdated} />
+                                                    {currentBill && (
+                                                        <EditBillDialog bill={currentBill} onBillUpdated={handleBillUpdated} />
+                                                    )}
+                                                </div>
+                                            </TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        </Table>
+                    </CardContent>
+                </Card>
             </div>
         </>
     );

@@ -56,10 +56,13 @@ export async function PUT(
       );
     }
 
+    // Convert and validate number
+    const roomNumber = number !== undefined ? parseInt(number) : existingRoom.number;
+
     // Check if new room number conflicts with another room
-    if (number !== existingRoom.number) {
+    if (roomNumber !== existingRoom.number) {
       const conflictingRoom = await prisma.room.findUnique({
-        where: { number },
+        where: { number: roomNumber },
       });
 
       if (conflictingRoom) {
@@ -73,8 +76,8 @@ export async function PUT(
     const room = await prisma.room.update({
       where: { id: parseInt(id) },
       data: {
-        number: number !== undefined ? number : existingRoom.number,
-        tenantName: tenantName !== undefined ? tenantName : existingRoom.tenantName,
+        number: roomNumber,
+        tenantName: tenantName !== undefined ? (tenantName || null) : existingRoom.tenantName,
         rent: rent !== undefined ? parseFloat(rent) : existingRoom.rent,
         status: status !== undefined ? status : existingRoom.status,
       },
