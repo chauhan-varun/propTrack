@@ -61,17 +61,31 @@ A full-stack web application for managing rent and electricity bills for up to 9
 pnpm install
 ```
 
-2. **Set up the database**
+2. **Configure environment variables**
+
+Copy the example env file and update with your PostgreSQL connection string:
 
 ```bash
-# Run migrations
+cp .env.example .env
+```
+
+Edit `.env` and update the `DATABASE_URL`:
+
+```env
+DATABASE_URL="postgresql://username:password@localhost:5432/proptrack"
+```
+
+3. **Set up the database**
+
+```bash
+# Run migrations to create tables
 pnpm db:migrate
 
 # Seed with sample data (optional)
 pnpm db:seed
 ```
 
-3. **Run the development server**
+4. **Run the development server**
 
 ```bash
 pnpm dev
@@ -222,30 +236,54 @@ pnpm lint            # Run ESLint
 
 ### Vercel (Recommended)
 
-1. Push your code to GitHub
-2. Import project in Vercel
-3. Vercel will auto-detect Next.js and configure build settings
-4. Deploy!
+1. **Set up PostgreSQL Database**
+   - Use [Vercel Postgres](https://vercel.com/docs/storage/vercel-postgres)
+   - Or [Supabase](https://supabase.com/)
+   - Or [Neon](https://neon.tech/)
+   - Or any other PostgreSQL provider
 
-**Note**: For production with SQLite, consider migrating to PostgreSQL:
-- Update `prisma/schema.prisma` datasource to `postgresql`
-- Set up a PostgreSQL database (e.g., Vercel Postgres, Supabase)
-- Update `DATABASE_URL` environment variable
-- Run migrations: `pnpm db:migrate`
+2. **Push your code to GitHub**
+
+3. **Import project in Vercel**
+   - Connect your GitHub repository
+   - Vercel will auto-detect Next.js configuration
+
+4. **Add environment variables in Vercel**
+   - Go to Project Settings → Environment Variables
+   - Add `DATABASE_URL` with your PostgreSQL connection string
+
+5. **Deploy**
+   - Vercel will automatically run migrations and deploy your app
+
+### Manual Deployment
+
+For other platforms, ensure you:
+1. Set up a PostgreSQL database
+2. Set the `DATABASE_URL` environment variable
+3. Run `pnpm db:migrate` to create tables
+4. Run `pnpm build` to build the application
+5. Run `pnpm start` to start the production server
 
 ## 📝 Environment Variables
 
 Create a `.env` file in the root directory:
 
 ```env
-DATABASE_URL="file:./dev.db"
-```
-
-For production with PostgreSQL:
-
-```env
+# PostgreSQL Database URL
 DATABASE_URL="postgresql://username:password@host:port/database"
 ```
+
+### Database Connection String Format
+
+```
+postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=SCHEMA
+```
+
+Examples:
+- **Local**: `postgresql://postgres:password@localhost:5432/proptrack`
+- **Vercel Postgres**: Provided in Vercel dashboard
+- **Supabase**: `postgresql://postgres:[password]@[host]:5432/postgres`
+- **Neon**: `postgresql://[user]:[password]@[host]/[database]`
 
 ## 🎨 Customization
 

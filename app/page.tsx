@@ -35,10 +35,20 @@ export default function Home() {
   const fetchDashboard = async () => {
     try {
       const response = await fetch('/api/dashboard');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
       const result = await response.json();
+
+      // Check if result has the expected structure
+      if (!result.stats) {
+        throw new Error('Invalid data structure received from API');
+      }
+
       setData(result);
     } catch (error) {
       console.error('Error fetching dashboard:', error);
+      setData(null);
     } finally {
       setLoading(false);
     }
@@ -58,8 +68,12 @@ export default function Home() {
 
   if (!data) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex flex-col items-center justify-center min-h-screen gap-4">
         <div className="text-lg text-red-500">Failed to load dashboard data</div>
+        <p className="text-muted-foreground text-center max-w-md">
+          Please ensure your PostgreSQL database is running and properly configured in the .env file.
+        </p>
+        <Button onClick={fetchDashboard}>Retry</Button>
       </div>
     );
   }
