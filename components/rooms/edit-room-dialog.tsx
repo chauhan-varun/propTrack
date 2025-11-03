@@ -68,8 +68,9 @@ export function EditRoomDialog({ room, onRoomUpdated }: EditRoomDialogProps) {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button variant="outline" size="sm">
-                    <Pencil className="h-4 w-4" />
+                <Button variant="outline" size="sm" className="gap-1">
+                    <Pencil className="h-3 w-3" />
+                    <span className="text-xs">Room</span>
                 </Button>
             </DialogTrigger>
             <DialogContent>
