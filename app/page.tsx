@@ -95,103 +95,103 @@ export default function Home() {
           </Link>
         </div>
 
-      {/* Summary Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+        {/* Summary Cards */}
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Rooms</CardTitle>
+              <Building2 className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{stats.totalRooms}</div>
+              <p className="text-xs text-muted-foreground">Maximum 90 rooms</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Occupied</CardTitle>
+              <Users className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{stats.occupiedRooms}</div>
+              <p className="text-xs text-muted-foreground">
+                {stats.totalRooms > 0 ? ((stats.occupiedRooms / stats.totalRooms) * 100).toFixed(1) : 0}% occupancy
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Vacant</CardTitle>
+              <HomeIcon className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{stats.vacantRooms}</div>
+              <p className="text-xs text-muted-foreground">Available rooms</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Collected</CardTitle>
+              <DollarSign className="h-4 w-4 text-green-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">₹{stats.totalCollected.toFixed(2)}</div>
+              <p className="text-xs text-muted-foreground">This month</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Pending Amount</CardTitle>
+              <AlertCircle className="h-4 w-4 text-orange-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">₹{stats.pendingAmount.toFixed(2)}</div>
+              <p className="text-xs text-muted-foreground">{unpaidBills.length} unpaid bills</p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Due Payments Section */}
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Rooms</CardTitle>
-            <Building2 className="h-4 w-4 text-muted-foreground" />
+          <CardHeader>
+            <CardTitle>Due Payments</CardTitle>
+            <CardDescription>List of all unpaid bills across all months</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.totalRooms}</div>
-            <p className="text-xs text-muted-foreground">Maximum 90 rooms</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Occupied</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.occupiedRooms}</div>
-            <p className="text-xs text-muted-foreground">
-              {stats.totalRooms > 0 ? ((stats.occupiedRooms / stats.totalRooms) * 100).toFixed(1) : 0}% occupancy
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Vacant</CardTitle>
-            <HomeIcon className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.vacantRooms}</div>
-            <p className="text-xs text-muted-foreground">Available rooms</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Collected</CardTitle>
-            <DollarSign className="h-4 w-4 text-green-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">₹{stats.totalCollected.toFixed(2)}</div>
-            <p className="text-xs text-muted-foreground">This month</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pending Amount</CardTitle>
-            <AlertCircle className="h-4 w-4 text-orange-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">₹{stats.pendingAmount.toFixed(2)}</div>
-            <p className="text-xs text-muted-foreground">{unpaidBills.length} unpaid bills</p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Due Payments Section */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Due Payments</CardTitle>
-          <CardDescription>List of all unpaid bills across all months</CardDescription>
-        </CardHeader>
-        <CardContent>
-          {unpaidBills.length === 0 ? (
-            <p className="text-center text-muted-foreground py-8">No pending payments! 🎉</p>
-          ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Room No.</TableHead>
-                  <TableHead>Tenant Name</TableHead>
-                  <TableHead>Month</TableHead>
-                  <TableHead className="text-right">Amount Due</TableHead>
-                  <TableHead>Status</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {unpaidBills.map((bill) => (
-                  <TableRow key={bill.id}>
-                    <TableCell className="font-medium">{bill.room.number}</TableCell>
-                    <TableCell>{bill.room.tenantName || 'N/A'}</TableCell>
-                    <TableCell>{bill.month}</TableCell>
-                    <TableCell className="text-right font-semibold">₹{bill.total.toFixed(2)}</TableCell>
-                    <TableCell>
-                      <Badge variant="destructive">Unpaid</Badge>
-                    </TableCell>
+            {unpaidBills.length === 0 ? (
+              <p className="text-center text-muted-foreground py-8">No pending payments! 🎉</p>
+            ) : (
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Room No.</TableHead>
+                    <TableHead>Tenant Name</TableHead>
+                    <TableHead>Month</TableHead>
+                    <TableHead className="text-right">Amount Due</TableHead>
+                    <TableHead>Status</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-        </CardContent>
-      </Card>
+                </TableHeader>
+                <TableBody>
+                  {unpaidBills.map((bill) => (
+                    <TableRow key={bill.id}>
+                      <TableCell className="font-medium">{bill.room.number}</TableCell>
+                      <TableCell>{bill.room.tenantName || 'N/A'}</TableCell>
+                      <TableCell>{bill.month}</TableCell>
+                      <TableCell className="text-right font-semibold">₹{bill.total.toFixed(2)}</TableCell>
+                      <TableCell>
+                        <Badge variant="destructive">Unpaid</Badge>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
+          </CardContent>
+        </Card>
       </div>
     </>
   );

@@ -88,14 +88,19 @@ export default function RoomsPage() {
 
     if (loading) {
         return (
-            <div className="flex items-center justify-center min-h-screen">
-                <div className="text-lg">Loading...</div>
-            </div>
+            <>
+                <Header />
+                <div className="flex items-center justify-center min-h-screen">
+                    <div className="text-lg">Loading...</div>
+                </div>
+            </>
         );
     }
 
     return (
-        <div className="container mx-auto p-6 space-y-6">
+        <>
+            <Header />
+            <div className="container mx-auto p-6 space-y-6">
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                     <Link href="/">
@@ -195,6 +200,7 @@ export default function RoomsPage() {
                     </Table>
                 </CardContent>
             </Card>
-        </div>
+            </div>
+        </>
     );
 }
