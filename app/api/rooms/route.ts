@@ -9,7 +9,6 @@ export async function GET() {
       include: {
         bills: {
           orderBy: { month: 'desc' },
-          take: 1,
         },
       },
     });

@@ -27,13 +27,14 @@ export async function POST(request: NextRequest) {
 
     // Get default rate per unit from settings
     const rateSetting = await prisma.setting.findUnique({
-      where: { key: 'ratePerUnit' },
+      where: { key: 'defaultRatePerUnit' },
     });
 
     const defaultRate = rateSetting ? parseFloat(rateSetting.value) : 5;
 
     // Create bills for each occupied room
     const newBills = [];
+    const skippedRooms = [];
     
     for (const room of rooms) {
       // Check if bill already exists for this month
@@ -47,19 +48,23 @@ export async function POST(request: NextRequest) {
       });
 
       if (existingBill) {
+        skippedRooms.push(room.number);
         continue; // Skip if bill already exists
       }
 
-      // Get previous month's currUnits or default to 0
-      const prevUnits = room.bills.length > 0 ? room.bills[0].currUnits : 0;
+      // Get the most recent bill to get the current units
+      const previousBill = room.bills.length > 0 ? room.bills[0] : null;
+      
+      // Use previous month's currUnits as this month's prevUnits
+      const prevUnits = previousBill ? previousBill.currUnits : 0;
 
       const bill = await prisma.bill.create({
         data: {
           month,
           prevUnits,
-          currUnits: prevUnits, // Start with same as prev
+          currUnits: prevUnits, // Start with same as prev (to be updated later)
           unitsUsed: 0,
-          ratePerUnit: defaultRate,
+          ratePerUnit: previousBill ? previousBill.ratePerUnit : defaultRate,
           rentAmount: room.rent,
           electricityAmt: 0,
           total: room.rent,
@@ -74,9 +79,14 @@ export async function POST(request: NextRequest) {
       newBills.push(bill);
     }
 
+    const message = skippedRooms.length > 0 
+      ? `Created ${newBills.length} new bills for ${month}. Skipped ${skippedRooms.length} rooms that already have bills (${skippedRooms.join(', ')}).`
+      : `Created ${newBills.length} new bills for ${month}.`;
+
     return NextResponse.json({
-      message: `Created ${newBills.length} bills for ${month}`,
+      message,
       bills: newBills,
+      skipped: skippedRooms.length,
     });
   } catch (error) {
     console.error('Error generating month records:', error);
