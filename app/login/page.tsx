@@ -87,7 +87,14 @@ export default function LoginPage() {
                             </div>
                         )}
                         <Button type="submit" className="w-full" disabled={loading}>
-                            {loading ? 'Signing in...' : 'Sign In'}
+                            {loading ? (
+                                <div className="flex items-center gap-2">
+                                    <ClipLoader color="#ffffff" size={16} />
+                                    <span>Signing in...</span>
+                                </div>
+                            ) : (
+                                'Sign In'
+                            )}
                         </Button>
                     </form>
                     <div className="mt-4 text-center text-sm text-muted-foreground">
