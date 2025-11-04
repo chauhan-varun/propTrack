@@ -11,6 +11,7 @@ import Link from 'next/link';
 import { AddRoomDialog } from '@/components/rooms/add-room-dialog';
 import { EditRoomDialog } from '@/components/rooms/edit-room-dialog';
 import { EditBillDialog } from '@/components/rooms/edit-bill-dialog';
+import { DeleteBillDialog } from '@/components/rooms/delete-bill-dialog';
 import { GenerateMonthDialog } from '@/components/rooms/generate-month-dialog';
 import { Header } from '@/components/header';
 
@@ -79,6 +80,10 @@ export default function RoomsPage() {
     };
 
     const handleBillUpdated = () => {
+        fetchRooms();
+    };
+
+    const handleBillDeleted = () => {
         fetchRooms();
     };
 
@@ -193,6 +198,10 @@ export default function RoomsPage() {
                                                         roomId={room.id}
                                                         selectedMonth={selectedMonth}
                                                         onBillUpdated={handleBillUpdated}
+                                                    />
+                                                    <DeleteBillDialog
+                                                        bill={currentBill || null}
+                                                        onBillDeleted={handleBillDeleted}
                                                     />
                                                 </div>
                                             </TableCell>
