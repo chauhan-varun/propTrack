@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import { ClipLoader } from 'react-spinners';
 import { AddRoomDialog } from '@/components/rooms/add-room-dialog';
 import { EditRoomDialog } from '@/components/rooms/edit-room-dialog';
 import { EditBillDialog } from '@/components/rooms/edit-bill-dialog';
@@ -96,7 +97,10 @@ export default function RoomsPage() {
             <>
                 <Header />
                 <div className="flex items-center justify-center min-h-screen">
-                    <div className="text-lg">Loading...</div>
+                    <div className="flex flex-col items-center gap-4">
+                        <ClipLoader color="hsl(var(--primary))" size={50} />
+                        <div className="text-lg">Loading...</div>
+                    </div>
                 </div>
             </>
         );

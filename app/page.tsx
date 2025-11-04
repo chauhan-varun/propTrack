@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Building2, Users, Home as HomeIcon, DollarSign, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
+import { ClipLoader } from 'react-spinners';
 import { Header } from '@/components/header';
 
 interface DashboardData {
@@ -61,9 +62,15 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-lg">Loading...</div>
-      </div>
+      <>
+        <Header />
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="flex flex-col items-center gap-4">
+            <ClipLoader color="hsl(var(--primary))" size={50} />
+            <div className="text-lg">Loading...</div>
+          </div>
+        </div>
+      </>
     );
   }
 

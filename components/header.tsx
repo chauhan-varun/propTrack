@@ -3,6 +3,7 @@
 import { signOut, useSession } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import { Building2, LogOut } from 'lucide-react';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 export function Header() {
     const { data: session } = useSession();
@@ -20,6 +21,7 @@ export function Header() {
                     <span className="text-sm text-muted-foreground">
                         {session.user?.email}
                     </span>
+                    <ThemeToggle />
                     <Button
                         variant="outline"
                         size="sm"
